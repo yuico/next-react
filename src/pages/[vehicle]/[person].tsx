@@ -28,12 +28,18 @@ export default function Person({ ownersList }: PersonProps) {
   return <pre>{owners[0]?.details}</pre>;
 }
 
-Person.getInitialProps = async (ctx: NextPageContext) => {
-  if (!ctx.req) {
+interface MyNextPageContext extends NextPageContext {
+  query: {
+    person: string;
+    vehicle: string;
+  };
+}
+
+Person.getInitialProps = async ({ query, req }: MyNextPageContext) => {
+  if (!req) {
     return { ownersList: [] };
   }
 
-  const { query } = ctx;
   const ownersList = await (
     await fetch(
       `http://localhost:4001/vehicles?ownerName=${query.person}&vehicle=${query.vehicle}`
