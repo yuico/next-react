@@ -19,15 +19,23 @@
   "vehicles":[
     {
     "ownerName": "yui",
-    "vehicle": "car"
+    "vehicle": "car",
+    "details": "Details of Yui's Car"
     },
     {
-      "ownerName": "kim",
-      "vehicle": "ship"
+      "ownerName": "yui",
+      "vehicle": "bike",
+      "details": "Details of Yui's bike"
+      },
+    {
+      "ownerName": "Kim",
+      "vehicle": "Ship",
+      "details": "Details of Kim's Ship"
     },
     {
       "ownerName": "Jay",
-      "vehicle": "bike"
+      "vehicle": "Bike",
+      "details":"Details of Jay's Bike"
     }
   ]
 }
