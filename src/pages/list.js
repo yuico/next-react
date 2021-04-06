@@ -2,17 +2,7 @@ import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
 
 export default function List({ownersList}) { 
-  /* const [owners, ownersSet] = useState([]);
-  useEffect(() => {
-    async function loadData() {
-      const res = await fetch('http://localhost:4001/vehicles');
-      const ownersList = await res.json();
-      ownersSet(ownersList);
-    }
 
-    loadData();
-
-  }, [])  */
   return (
     <div>
       {ownersList.map((d, idx)=>(
