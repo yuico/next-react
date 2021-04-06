@@ -1,10 +1,15 @@
 import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
+import { VehiclePerson } from '../../api/VehiclePerson';
 
-export default function List({ ownersList }) {
+export interface ListProps {
+  ownersList: VehiclePerson[] | undefined;
+}
+
+export default function List({ ownersList }: ListProps) {
   return (
     <div>
-      {ownersList.map((d, idx) => (
+      {ownersList?.map((d, idx) => (
         <div key={idx}>
           <Link as={`/${d.vehicle}/${d.ownerName}`} href='/[vehicle]/[person]'>
             <a>
@@ -17,14 +22,8 @@ export default function List({ ownersList }) {
   );
 }
 
-export interface VehiclePerson {
-  details: string;
-  ownerName: string;
-  vehicle: string;
-}
-
 List.getInitialProps = async () => {
-  const ownersList = await (
+  const ownersList: VehiclePerson[] | undefined = await (
     await fetch('http://localhost:4001/vehicles')
   ).json();
   return { ownersList: ownersList };
