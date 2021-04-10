@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import sqlite from 'sqlite';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
+import { secret } from '../../../api/secret';
+import cookie from 'cookie';
 
-export default async function signup(req: NextApiRequest, res: NextApiResponse) {
+export default async function login(req: NextApiRequest, res: NextApiResponse) {
   const db = await sqlite.open('./mydb.sqlite');
 
   if(req.method === 'POST') {
@@ -12,9 +14,15 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
     compare(req.body.password, person.password, function(err, result) {
       if(!err && result) {
         const claims = { sub: person.id, myPersonEmail: person.email };
-        const jwt = sign(claims, 'de30dd92-63c3-45af-ab9c-feb0c38099cd', { expiresIn: '1h' });
-
-        res.json({authToken: jwt})
+        const jwt = sign(claims, secret, { expiresIn: '1h' });
+        res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== 'development',
+          sameSite: 'strict',
+          maxAge: 3600,
+          path: '/'
+        }))
+        res.json({message: 'Welcome back to the app'})
       }else{
         res.json({message: "Something went wrong"})
       }
