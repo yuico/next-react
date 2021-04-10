@@ -1,5 +1,6 @@
 import { NextPageContext } from 'next';
 import fetch from 'isomorphic-unfetch';
+import Router from 'next/router';
 
 export default function People({ people }: any) {
   return <div>People: {JSON.stringify(people)}</div>;
@@ -12,6 +13,10 @@ People.getInitialProps = async (ctx: NextPageContext) => {
       cookie: cookie!,
     },
   });
+
+  if (resp.status === 401) {
+    Router.replace('/login');
+  }
   const json = await resp.json();
   return { people: json };
 };
