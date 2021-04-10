@@ -14,9 +14,19 @@ People.getInitialProps = async (ctx: NextPageContext) => {
     },
   });
 
-  if (resp.status === 401) {
+  if (resp.status === 401 && !ctx.req) {
     Router.replace('/login');
+    return {};
   }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: 'http://localhost:3000/login',
+    });
+    ctx.res?.end();
+    return;
+  }
+
   const json = await resp.json();
   return { people: json };
 };
