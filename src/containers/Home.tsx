@@ -7,6 +7,10 @@ export function Home() {
       <Link href='/people'>
         <a>people</a>
       </Link>
+      <br />
+      <Link href='/vehicles'>
+        <a>vehicles</a>
+      </Link>
     </div>
   );
 }
